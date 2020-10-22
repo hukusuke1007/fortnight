@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fortnight/presentation/scenes/stage1_scene_controller.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({Key key}) : super(key: key);
@@ -8,38 +9,21 @@ class GamePage extends StatefulWidget {
 }
 
 class GameController extends State<GamePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  GameController() {
+    stage1sceneController = Stage1SceneController();
   }
+
+  Stage1SceneController stage1sceneController;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('title'),
+        title: const Text('Fortnight'),
+        centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      body: Container(
+        child: stage1sceneController.widget,
       ),
     );
   }
