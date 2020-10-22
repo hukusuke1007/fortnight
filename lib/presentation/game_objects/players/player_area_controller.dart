@@ -56,19 +56,19 @@ class PlayerAreaController extends PositionComponent
   void _createCollisionArea() {
     final component = CollisionArea(
       x: 0,
-      y: screenSize.height - 160,
+      y: screenSize.height - 110,
       width: screenSize.width,
-      height: 20,
+      height: 6,
     );
     components.add(component);
   }
 
   void _createKentikuButton() {
     final component = KentikuButton(
-      x: 16,
-      y: collisionArea.y + 48,
+      x: 32,
+      y: collisionArea.y + 16,
       width: 160,
-      height: 80,
+      height: 72,
     );
     components.add(component);
   }
@@ -76,10 +76,10 @@ class PlayerAreaController extends PositionComponent
   void _createAttackButton() {
     const buttonWidth = 160.0;
     final component = AttackButton(
-      x: screenSize.width - buttonWidth - 16,
-      y: collisionArea.y + 48,
+      x: screenSize.width - buttonWidth - 32,
+      y: collisionArea.y + 16,
       width: buttonWidth,
-      height: 80,
+      height: 72,
     );
     components.add(component);
   }

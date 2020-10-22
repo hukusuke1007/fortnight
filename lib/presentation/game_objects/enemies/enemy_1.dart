@@ -10,18 +10,39 @@ import 'package:flutter/material.dart';
 /// 敵のコントローラ
 class Enemy1Controller extends PositionComponent
     with HasGameRef, Tapable, ComposedComponent, Resizable {
-  Enemy1Controller() {
-    final enemy = Enemy1(x: 100, y: 40, width: 200, height: 200);
-    components.add(enemy);
-  }
+  Size screenSize;
+  Enemy1 get enemy1 =>
+      components.firstWhere((value) => value is Enemy1, orElse: () => null)
+          as Enemy1;
 
   @override
   void update(double t) {
     super.update(t);
   }
 
+  @override
+  void resize(Size size) {
+    screenSize = size;
+    if (enemy1 == null) {
+      _createEnemy();
+    }
+    print('resize $size');
+  }
+
   void reset() {
     components.clear();
+  }
+
+  void _createEnemy() {
+    const enemyWidth = 120.0;
+    const enemyHeight = 120.0;
+    final enemy = Enemy1(
+      x: screenSize.width - enemyWidth - 48,
+      y: screenSize.height / 2 - enemyHeight,
+      width: enemyWidth,
+      height: enemyHeight,
+    );
+    components.add(enemy);
   }
 }
 

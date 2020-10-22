@@ -51,7 +51,7 @@ class AttackButton extends PositionComponent
     c.drawRect(_rect, _paint);
     _painter.paint(
       c,
-      Offset(x + (width / 4), y + (height / 5)),
+      Offset(x + (width / 4), y + (height / 8)),
     );
   }
 }
