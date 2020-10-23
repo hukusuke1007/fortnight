@@ -21,6 +21,7 @@ class PlayerAreaController extends PositionComponent
   CollisionArea get collisionArea =>
       components.firstWhere((value) => value is CollisionArea,
           orElse: () => null) as CollisionArea;
+
   KentikuButton get kentikuButton =>
       components.firstWhere((value) => value is KentikuButton,
           orElse: () => null) as KentikuButton;
