@@ -45,9 +45,9 @@ class Enemy1Controller extends PositionComponent
     components.clear();
   }
 
-  void onUpdateRemoveBullets(PositionComponent player) {
+  void onUpdateCollisionBullets(PositionComponent player) {
     components.whereType<Enemy1>().forEach((element) {
-      element.onRemoveBullet(player);
+      element.onCollisionBullet(player);
     });
   }
 
@@ -125,7 +125,7 @@ class Enemy1 extends PositionComponent
     return hp <= 0;
   }
 
-  void onRemoveBullet(PositionComponent player) {
-    _bulletController.onRemoveBullet(player);
+  void onCollisionBullet(PositionComponent player) {
+    _bulletController.onCollisionBullet(player);
   }
 }

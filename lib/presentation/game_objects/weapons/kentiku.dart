@@ -24,8 +24,8 @@ class KentikuController extends PositionComponent
   final Rect playerRect;
 
   Size screenSize;
-  int get _bulletCount => components.whereType<Kentiku>().length;
-  int get _maxBulletCount => 1;
+  int get _count => components.whereType<Kentiku>().length;
+  int get _maxCount => 1;
 
   @override
   void update(double t) {
@@ -40,38 +40,34 @@ class KentikuController extends PositionComponent
 
   void onCreate({double offsetX = 0}) {
     print('onCreate');
-    if (_bulletCount < _maxBulletCount) {
-      final initialX = playerRect.right + 32 + offsetX;
-      final initialY = playerRect.top - 16;
+    if (_count < _maxCount) {
+      final initialX = playerRect.right + 96 + offsetX;
+      final initialY = playerRect.top - 32;
       const width = 24.0;
       final height = playerRect.height + 64;
-      final bullet = Kentiku(
+      final data = Kentiku(
         x: initialX,
         y: initialY,
         width: width,
         height: height,
       );
-      components.add(bullet);
+      components.add(data);
+      messageController.onKentiku.add(ComponentMessageState(
+        data,
+        objectStateType: ObjectStateType.create,
+      ));
     }
-  }
-
-  void onRemoveKentiku(PositionComponent bullet) {
-    components
-        .where((element) =>
-            (element as Kentiku).rect.left < bullet.toRect().right + 16)
-        .map((e) => e as Kentiku)
-        .forEach((element) {
-      element.onRemove();
-      print('removeBullet');
-      print(components.length);
-    });
   }
 
   void onReset() {
     components.clear();
   }
 
-  void _fetch() {}
+  void _fetch() {
+    messageController.fetchKentiku
+        .where((event) => event.objectStateType == ObjectStateType.remove)
+        .listen((event) => components.clear());
+  }
 }
 
 /// 建築

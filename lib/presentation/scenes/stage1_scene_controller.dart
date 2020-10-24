@@ -48,7 +48,7 @@ class Stage1SceneController extends BaseGame
   @override
   void update(double t) {
     super.update(t);
-    _updateRemoveEnemyBullets();
+    _updateCollisionBullets();
   }
 
   void _attackToEnemy() {
@@ -59,12 +59,11 @@ class Stage1SceneController extends BaseGame
     _playerController.onCreateKentiku();
   }
 
-  void _updateRemoveEnemyBullets() {
-    // TODO(shohei): 建築とプレイヤーの当たり制御を考える
+  void _updateCollisionBullets() {
     final player = _playerController.player;
     if (player == null) {
       return;
     }
-    _enemy1controller.onUpdateRemoveBullets(player);
+    _enemy1controller.onUpdateCollisionBullets(player);
   }
 }

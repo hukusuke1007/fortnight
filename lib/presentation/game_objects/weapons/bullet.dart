@@ -31,6 +31,8 @@ class BulletController extends PositionComponent
   int get _maxFrameCount => 60;
   bool _isEnableCreateBullet = true;
 
+  PositionComponent _kentiku;
+
   @override
   void update(double t) {
     super.update(t);
@@ -58,10 +60,32 @@ class BulletController extends PositionComponent
     }
   }
 
-  void onRemoveBullet(PositionComponent player) {
+  void onCollisionBullet(PositionComponent player) {
+    /// vs Kentiku
+    if (_kentiku != null) {
+      components
+          .where((element) {
+            final rect = (element as Bullet).rect;
+            return _kentiku != null &&
+                (rect.left < _kentiku.toRect().right + 8 &&
+                    rect.left > _kentiku.toRect().left);
+          })
+          .map((e) => e as Bullet)
+          .forEach((element) {
+            messageController.onKentiku.add(ComponentMessageState(
+              _kentiku,
+              objectStateType: ObjectStateType.remove,
+            ));
+            _kentiku = null;
+            element.onRemove();
+            print('removeKentiku');
+          });
+    }
+
+    /// vs Player
     components
         .where((element) =>
-            (element as Bullet).rect.left < player.toRect().right + 16)
+            (element as Bullet).rect.left < player.toRect().right + 8)
         .map((e) => e as Bullet)
         .forEach((element) {
       messageController.onCollision.add(CollisionMessageState(
@@ -71,7 +95,6 @@ class BulletController extends PositionComponent
       ));
       element.onRemove();
       print('removeBullet');
-      print(components.length);
     });
   }
 
@@ -100,6 +123,10 @@ class BulletController extends PositionComponent
       _isEnableCreateBullet = !event;
       components.clear();
     });
+
+    messageController.fetchKentiku
+        .where((event) => event.objectStateType == ObjectStateType.create)
+        .listen((event) => _kentiku = event.component);
   }
 }
 
