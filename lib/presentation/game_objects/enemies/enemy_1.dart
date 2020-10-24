@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/components/component.dart';
@@ -7,11 +8,19 @@ import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
 import 'package:flutter/material.dart';
 import 'package:fortnight/presentation/game_objects/weapons/bullet.dart';
+import 'package:fortnight/presentation/messages/index.dart';
 
 /// 敵のコントローラ
 class Enemy1Controller extends PositionComponent
-    with HasGameRef, Tapable, ComposedComponent, Resizable {
-  Enemy1Controller() {}
+    with
+        HasGameRef,
+        Tapable,
+        ComposedComponent,
+        Resizable,
+        MessageControllerMixin {
+  Enemy1Controller() {
+    _fetch();
+  }
 
   Size screenSize;
   Enemy1 get enemy1 =>
@@ -32,13 +41,27 @@ class Enemy1Controller extends PositionComponent
     print('resize $size');
   }
 
-  void reset() {
+  void onReset() {
     components.clear();
   }
 
-  void updateRemoveBullets(PositionComponent player) {
+  void onUpdateRemoveBullets(PositionComponent player) {
     components.whereType<Enemy1>().forEach((element) {
-      element.removeBullet(player);
+      element.onRemoveBullet(player);
+    });
+  }
+
+  void _fetch() {
+    messageController.fetchCollision
+        .where((event) => event.to is Enemy1)
+        .listen((event) {
+      if (enemy1 != null && enemy1.hp > 0) {
+        enemy1.hp = max(enemy1.hp - event.damagePoint, 0);
+        print('enemy_hp ${enemy1.hp}');
+        if (enemy1.hp == 0) {
+          messageController.onGameClear.add(true);
+        }
+      }
     });
   }
 
@@ -77,6 +100,7 @@ class Enemy1 extends PositionComponent
   final double y;
   final double width;
   final double height;
+  int hp = 1000;
 
   final BulletController _bulletController;
 
@@ -98,10 +122,10 @@ class Enemy1 extends PositionComponent
 
   @override
   bool destroy() {
-    return toRemove;
+    return hp <= 0;
   }
 
-  void removeBullet(PositionComponent player) {
-    _bulletController.removeBullet(player);
+  void onRemoveBullet(PositionComponent player) {
+    _bulletController.onRemoveBullet(player);
   }
 }

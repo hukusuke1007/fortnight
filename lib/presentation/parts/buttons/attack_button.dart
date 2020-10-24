@@ -41,6 +41,11 @@ class AttackButton extends PositionComponent
   TextPainter _painter;
 
   @override
+  void onTapDown(TapDownDetails details) {
+    print('攻撃');
+  }
+
+  @override
   void update(double t) {
     super.update(t);
   }

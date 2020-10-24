@@ -35,9 +35,9 @@ class BulletController extends PositionComponent
   void update(double t) {
     super.update(t);
 
-    // 生成
+    // TODO(shohei): 仮
     if (_isEnableCreateBullet) {
-      createBullet(offsetY: 0);
+      onCreateBullet(offsetY: 0);
     }
   }
 
@@ -47,7 +47,7 @@ class BulletController extends PositionComponent
     print('resize $size');
   }
 
-  void createBullet({double offsetY = 0}) {
+  void onCreateBullet({double offsetY = 0}) {
     if (_maxFrameCount <= _frameCount) {
       _frameCount = 0;
       if (_bulletCount < _maxBulletCount) {
@@ -58,7 +58,7 @@ class BulletController extends PositionComponent
     }
   }
 
-  void removeBullet(PositionComponent player) {
+  void onRemoveBullet(PositionComponent player) {
     components
         .where((element) =>
             (element as Bullet).rect.left < player.toRect().right + 16)
@@ -69,13 +69,13 @@ class BulletController extends PositionComponent
         to: player,
         damagePoint: 10,
       ));
-      element.remove();
+      element.onRemove();
       print('removeBullet');
       print(components.length);
     });
   }
 
-  void reset() {
+  void onReset() {
     components.clear();
   }
 
@@ -155,5 +155,5 @@ class Bullet extends PositionComponent
     return _toRemove;
   }
 
-  void remove() => _toRemove = true;
+  void onRemove() => _toRemove = true;
 }

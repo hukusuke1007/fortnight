@@ -7,6 +7,7 @@ import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
 import 'package:flutter/material.dart';
+import 'package:fortnight/presentation/game_objects/weapons/kentiku.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 
 /// 自分のコントローラ
@@ -25,6 +26,7 @@ class PlayerController extends PositionComponent
   Player get player =>
       components.firstWhere((value) => value is Player, orElse: () => null)
           as Player;
+  KentikuController kentikuController;
 
   @override
   void update(double t) {
@@ -40,8 +42,34 @@ class PlayerController extends PositionComponent
     print('resize $size');
   }
 
-  void reset() {
+  void onReset() {
     components.clear();
+  }
+
+  void onAttackEnemy(PositionComponent enemy) {
+    messageController.onCollision
+        .add(CollisionMessageState(from: this, to: enemy, damagePoint: 1));
+  }
+
+  void onCreateKentiku() {
+    if (kentikuController == null) {
+      return;
+    }
+    kentikuController.onCreate();
+  }
+
+  void _fetch() {
+    messageController.fetchCollision
+        .where((event) => event.to is Player)
+        .listen((event) {
+      if (player != null && player.hp > 0) {
+        player.hp = max(player.hp - event.damagePoint, 0);
+        print('player_hp ${player.hp}');
+        if (player.hp == 0) {
+          messageController.onGameOver.add(true);
+        }
+      }
+    });
   }
 
   void _createPlayer() {
@@ -55,21 +83,8 @@ class PlayerController extends PositionComponent
       width: playerWidth,
       height: playerHeight,
     );
-    components.add(player);
-  }
-
-  void _fetch() {
-    messageController.fetchCollision.listen((event) {
-      if (event.to is Player) {
-        if (player != null && player.hp > 0) {
-          player.hp = max(player.hp - event.damagePoint, 0);
-          print('hp ${player.hp}');
-          if (player.hp == 0) {
-            messageController.onGameOver.add(true);
-          }
-        }
-      }
-    });
+    kentikuController = KentikuController(playerRect: player.toRect());
+    components..add(player)..add(kentikuController);
   }
 }
 

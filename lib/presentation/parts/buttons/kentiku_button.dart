@@ -41,6 +41,11 @@ class KentikuButton extends PositionComponent
   TextPainter _painter;
 
   @override
+  void onTapDown(TapDownDetails details) {
+    print('建築');
+  }
+
+  @override
   void update(double t) {
     super.update(t);
   }
