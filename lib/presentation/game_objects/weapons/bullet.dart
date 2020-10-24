@@ -29,8 +29,8 @@ class BulletController extends PositionComponent
     // 生成
     createBullet(offsetY: 0);
 
-    // 削除
-    removeBullet();
+    // // 削除
+    // removeBullet();
   }
 
   @override
@@ -50,10 +50,9 @@ class BulletController extends PositionComponent
     }
   }
 
-  void removeBullet() {
-    const removePositionLeft = 5.0;
+  void removeBullet(double position) {
     components
-        .where((element) => (element as Bullet).rect.left < removePositionLeft)
+        .where((element) => (element as Bullet).rect.left < position)
         .map((e) => e as Bullet)
         .forEach((element) {
       element.remove();

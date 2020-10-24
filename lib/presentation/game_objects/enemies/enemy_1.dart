@@ -36,10 +36,16 @@ class Enemy1Controller extends PositionComponent
     components.clear();
   }
 
+  void updateRemoveBullets(double playerPosition) {
+    components.whereType<Enemy1>().forEach((element) {
+      element.removeBullet(playerPosition);
+    });
+  }
+
   void _createEnemy() {
     const enemyWidth = 120.0;
     const enemyHeight = 120.0;
-    final enemyX = screenSize.width - enemyWidth - 32;
+    final enemyX = screenSize.width - enemyWidth - 16;
     final enemyY = screenSize.height / 2 - enemyHeight + 16;
     final enemy = Enemy1(
       x: enemyX,
@@ -48,11 +54,6 @@ class Enemy1Controller extends PositionComponent
       height: enemyHeight,
     );
     components.add(enemy);
-    add(
-      BulletController(
-        playerRect: Rect.fromLTWH(enemyX, enemyY, enemyWidth, enemyHeight),
-      ),
-    );
   }
 }
 
@@ -64,15 +65,20 @@ class Enemy1 extends PositionComponent
     @required this.y,
     @required this.width,
     @required this.height,
-  }) {
+  }) : _bulletController = BulletController(
+          playerRect: Rect.fromLTWH(x, y, width, height),
+        ) {
     _rect = Rect.fromLTWH(x, y, width, height);
     _paint = Paint()..color = Colors.green;
+    add(_bulletController);
   }
 
   final double x;
   final double y;
   final double width;
   final double height;
+
+  final BulletController _bulletController;
 
   bool toRemove = false;
 
@@ -93,5 +99,9 @@ class Enemy1 extends PositionComponent
   @override
   bool destroy() {
     return toRemove;
+  }
+
+  void removeBullet(double playerPosition) {
+    _bulletController.removeBullet(playerPosition);
   }
 }

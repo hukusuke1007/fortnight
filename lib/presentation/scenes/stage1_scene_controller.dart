@@ -11,8 +11,18 @@ import 'package:fortnight/presentation/game_objects/players/index.dart';
 class Stage1SceneController extends BaseGame
     with MultiTouchTapDetector, HasTapableComponents {
   Stage1SceneController() {
-    this..add(Enemy1Controller())..add(PlayerAreaController());
+    _playerController = PlayerController();
+    _enemy1controller = Enemy1Controller();
+    _playerAreaController = PlayerAreaController();
+    this
+      ..add(_playerController)
+      ..add(_enemy1controller)
+      ..add(_playerAreaController);
   }
+
+  PlayerController _playerController;
+  Enemy1Controller _enemy1controller;
+  PlayerAreaController _playerAreaController;
 
   @override
   void onTapDown(int pointerId, TapDownDetails details) {}
@@ -20,12 +30,24 @@ class Stage1SceneController extends BaseGame
   @override
   void update(double t) {
     super.update(t);
-    // print('update $t');
+    _updateRemoveEnemyBullets();
   }
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
     // print('render $canvas');
+  }
+
+  void _updateRemoveEnemyBullets() {
+    final player = _playerController.player;
+    if (player == null) {
+      return;
+    }
+    _enemy1controller.updateRemoveBullets(player.toRect().right + 16);
+  }
+
+  void _collisionEnemy() {
+    // TODO
   }
 }
