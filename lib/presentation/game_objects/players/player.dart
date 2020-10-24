@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/components/component.dart';
@@ -6,11 +7,19 @@ import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
 import 'package:flutter/material.dart';
+import 'package:fortnight/presentation/messages/index.dart';
 
 /// 自分のコントローラ
 class PlayerController extends PositionComponent
-    with HasGameRef, Tapable, ComposedComponent, Resizable {
-  PlayerController() {}
+    with
+        HasGameRef,
+        Tapable,
+        ComposedComponent,
+        Resizable,
+        MessageControllerMixin {
+  PlayerController() {
+    _fetch();
+  }
 
   Size screenSize;
   Player get player =>
@@ -48,9 +57,23 @@ class PlayerController extends PositionComponent
     );
     components.add(player);
   }
+
+  void _fetch() {
+    messageController.fetchCollision.listen((event) {
+      if (event.to is Player) {
+        if (player != null && player.hp > 0) {
+          player.hp = max(player.hp - event.damagePoint, 0);
+          print('hp ${player.hp}');
+          if (player.hp == 0) {
+            messageController.onGameOver.add(true);
+          }
+        }
+      }
+    });
+  }
 }
 
-/// 敵
+/// プレイヤー
 class Player extends PositionComponent
     with HasGameRef, Tapable, ComposedComponent, Resizable {
   Player({
@@ -67,8 +90,7 @@ class Player extends PositionComponent
   final double y;
   final double width;
   final double height;
-
-  bool toRemove = false;
+  int hp = 100;
 
   Rect _rect;
   Paint _paint;
@@ -86,6 +108,6 @@ class Player extends PositionComponent
 
   @override
   bool destroy() {
-    return toRemove;
+    return hp <= 0;
   }
 }

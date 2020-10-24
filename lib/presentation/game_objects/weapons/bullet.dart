@@ -6,13 +6,21 @@ import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
 import 'package:flutter/material.dart';
+import 'package:fortnight/presentation/messages/index.dart';
 
 /// 銃弾のコントローラ
 class BulletController extends PositionComponent
-    with HasGameRef, Tapable, ComposedComponent, Resizable {
+    with
+        HasGameRef,
+        Tapable,
+        ComposedComponent,
+        Resizable,
+        MessageControllerMixin {
   BulletController({
     @required this.playerRect,
-  });
+  }) {
+    _fetch();
+  }
   final Rect playerRect;
 
   Size screenSize;
@@ -21,16 +29,16 @@ class BulletController extends PositionComponent
 
   int _frameCount = 0;
   int get _maxFrameCount => 60;
+  bool _isEnableCreateBullet = true;
 
   @override
   void update(double t) {
     super.update(t);
 
     // 生成
-    createBullet(offsetY: 0);
-
-    // // 削除
-    // removeBullet();
+    if (_isEnableCreateBullet) {
+      createBullet(offsetY: 0);
+    }
   }
 
   @override
@@ -50,11 +58,17 @@ class BulletController extends PositionComponent
     }
   }
 
-  void removeBullet(double position) {
+  void removeBullet(PositionComponent player) {
     components
-        .where((element) => (element as Bullet).rect.left < position)
+        .where((element) =>
+            (element as Bullet).rect.left < player.toRect().right + 16)
         .map((e) => e as Bullet)
         .forEach((element) {
+      messageController.onCollision.add(CollisionMessageState(
+        from: element,
+        to: player,
+        damagePoint: 10,
+      ));
       element.remove();
       print('removeBullet');
       print(components.length);
@@ -79,6 +93,13 @@ class BulletController extends PositionComponent
       targetLocation: Offset(0, initialY),
     );
     components.add(bullet);
+  }
+
+  void _fetch() {
+    messageController.fetchGameOver.listen((event) {
+      _isEnableCreateBullet = !event;
+      components.clear();
+    });
   }
 }
 

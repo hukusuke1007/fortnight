@@ -36,9 +36,9 @@ class Enemy1Controller extends PositionComponent
     components.clear();
   }
 
-  void updateRemoveBullets(double playerPosition) {
+  void updateRemoveBullets(PositionComponent player) {
     components.whereType<Enemy1>().forEach((element) {
-      element.removeBullet(playerPosition);
+      element.removeBullet(player);
     });
   }
 
@@ -101,7 +101,7 @@ class Enemy1 extends PositionComponent
     return toRemove;
   }
 
-  void removeBullet(double playerPosition) {
-    _bulletController.removeBullet(playerPosition);
+  void removeBullet(PositionComponent player) {
+    _bulletController.removeBullet(player);
   }
 }

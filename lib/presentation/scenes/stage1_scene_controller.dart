@@ -44,7 +44,7 @@ class Stage1SceneController extends BaseGame
     if (player == null) {
       return;
     }
-    _enemy1controller.updateRemoveBullets(player.toRect().right + 16);
+    _enemy1controller.updateRemoveBullets(player);
   }
 
   void _collisionEnemy() {
