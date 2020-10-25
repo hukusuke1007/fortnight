@@ -91,7 +91,7 @@ class BulletController extends PositionComponent
       messageController.onCollision.add(CollisionMessageState(
         from: element,
         to: player,
-        damagePoint: 10,
+        damagePoint: 1000,
       ));
       element.onRemove();
       print('removeBullet');

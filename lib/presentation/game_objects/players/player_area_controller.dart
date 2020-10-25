@@ -19,8 +19,8 @@ class PlayerAreaController extends PositionComponent
   Size screenSize;
 
   CollisionArea collisionArea;
-  KentikuButton kentikuButton;
-  AttackButton attackButton;
+  KentikuButton _kentikuButton;
+  AttackButton _attackButton;
 
   @override
   void update(double t) {
@@ -33,10 +33,10 @@ class PlayerAreaController extends PositionComponent
     if (collisionArea == null) {
       _createCollisionArea();
     }
-    if (kentikuButton == null) {
+    if (_kentikuButton == null) {
       _createKentikuButton();
     }
-    if (attackButton == null) {
+    if (_attackButton == null) {
       _createAttackButton();
     }
     print('resize $size');
@@ -45,6 +45,12 @@ class PlayerAreaController extends PositionComponent
   void onReset() {
     components.clear();
   }
+
+  bool isTapKentikuButton(TapDownDetails d) =>
+      _kentikuButton.toRect().contains(d.localPosition);
+
+  bool isTapAttackButton(TapDownDetails d) =>
+      _attackButton.toRect().contains(d.localPosition);
 
   void _createCollisionArea() {
     collisionArea = CollisionArea(
@@ -57,23 +63,23 @@ class PlayerAreaController extends PositionComponent
   }
 
   void _createKentikuButton() {
-    kentikuButton = KentikuButton(
+    _kentikuButton = KentikuButton(
       x: 32,
       y: collisionArea.y + 16,
       width: 160,
       height: 72,
     );
-    components.add(kentikuButton);
+    components.add(_kentikuButton);
   }
 
   void _createAttackButton() {
     const buttonWidth = 160.0;
-    attackButton = AttackButton(
+    _attackButton = AttackButton(
       x: screenSize.width - buttonWidth - 32,
       y: collisionArea.y + 16,
       width: buttonWidth,
       height: 72,
     );
-    components.add(attackButton);
+    components.add(_attackButton);
   }
 }

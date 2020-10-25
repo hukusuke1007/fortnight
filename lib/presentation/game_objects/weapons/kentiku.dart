@@ -5,7 +5,9 @@ import 'package:flame/components/composed_component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:fortnight/gen/index.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 
 /// 建築のコントローラ
@@ -56,6 +58,8 @@ class KentikuController extends PositionComponent
         data,
         objectStateType: ObjectStateType.create,
       ));
+
+      Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.kentikuCreate));
     }
   }
 
@@ -66,7 +70,10 @@ class KentikuController extends PositionComponent
   void _fetch() {
     messageController.fetchKentiku
         .where((event) => event.objectStateType == ObjectStateType.remove)
-        .listen((event) => components.clear());
+        .listen((event) {
+      Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.kentikuBreak));
+      components.clear();
+    });
   }
 }
 
