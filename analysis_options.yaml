@@ -5,3 +5,4 @@ analyzer:
     - lib/**/*.freezed.dart
     - lib/l10n/*.dart
     - lib/objectbox.g.dart
+    - lib/gen/*.gen.dart

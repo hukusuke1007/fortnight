@@ -32,11 +32,19 @@ dev_dependencies:
   pedantic_mono:
   build_runner:
   freezed:
+  flutter_gen:
+
+flutter_gen:
+  output: lib/gen/ # Optional (default: lib/gen/)
+  lineLength: 80 # Optional (default: 80)
+  integrations:
+    flutter_svg: true
+#  colors:
+#    inputs:
+#      - assets/color/colors.xml
 
 flutter:
   uses-material-design: true
-
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
+    - assets/sounds/
