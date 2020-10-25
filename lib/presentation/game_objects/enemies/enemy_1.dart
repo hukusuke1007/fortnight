@@ -9,6 +9,7 @@ import 'package:flame/components/mixins/tapable.dart';
 import 'package:flutter/material.dart';
 import 'package:fortnight/presentation/game_objects/weapons/bullet.dart';
 import 'package:fortnight/presentation/messages/index.dart';
+import 'package:fortnight/presentation/parts/index.dart';
 
 /// 敵のコントローラ
 class Enemy1Controller extends PositionComponent
@@ -88,21 +89,32 @@ class Enemy1 extends PositionComponent
     @required this.y,
     @required this.width,
     @required this.height,
-  }) : _bulletController = BulletController(
+  })  : _bulletController = BulletController(
           playerRect: Rect.fromLTWH(x, y, width, height),
+        ),
+        _lifePointLabel = LifePointLabel(
+          rect: Rect.fromLTWH(x, y, width, height),
         ) {
     _rect = Rect.fromLTWH(x, y, width, height);
     _paint = Paint()..color = Colors.green;
-    add(_bulletController);
+    hp = 1000;
+    this..add(_bulletController)..add(_lifePointLabel);
   }
 
   final double x;
   final double y;
   final double width;
   final double height;
-  int hp = 1000;
+
+  int _hp = 1;
+  int get hp => _hp;
+  set hp(int value) {
+    _hp = value;
+    _lifePointLabel.value = _hp;
+  }
 
   final BulletController _bulletController;
+  final LifePointLabel _lifePointLabel;
 
   bool toRemove = false;
 
@@ -122,7 +134,7 @@ class Enemy1 extends PositionComponent
 
   @override
   bool destroy() {
-    return hp <= 0;
+    return _hp <= 0;
   }
 
   void onCollisionBullet(PositionComponent player) {

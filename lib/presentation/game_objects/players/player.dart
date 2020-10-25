@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:fortnight/gen/index.dart';
 import 'package:fortnight/presentation/game_objects/weapons/kentiku.dart';
 import 'package:fortnight/presentation/messages/index.dart';
+import 'package:fortnight/presentation/parts/index.dart';
 
 /// 自分のコントローラ
 class PlayerController extends PositionComponent
@@ -123,16 +124,27 @@ class Player extends PositionComponent
     @required this.y,
     @required this.width,
     @required this.height,
-  }) {
+  }) : _lifePointLabel = LifePointLabel(
+          rect: Rect.fromLTWH(x, y, width, height),
+        ) {
     _rect = Rect.fromLTWH(x, y, width, height);
     _paint = Paint()..color = Colors.blue;
+    hp = 100;
+    add(_lifePointLabel);
   }
 
   final double x;
   final double y;
   final double width;
   final double height;
-  int hp = 100;
+  final LifePointLabel _lifePointLabel;
+
+  int _hp = 1;
+  int get hp => _hp;
+  set hp(int value) {
+    _hp = value;
+    _lifePointLabel.value = _hp;
+  }
 
   Rect _rect;
   Paint _paint;
