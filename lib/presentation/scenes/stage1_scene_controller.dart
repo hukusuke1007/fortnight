@@ -23,6 +23,7 @@ class Stage1SceneController extends BaseGame
   bool _isGameClear = false;
   bool _isGameStart = true;
   bool _isTapped = false;
+  bool _isEnableAttack = true;
 
   @override
   void onTapDown(int pointerId, TapDownDetails d) {
@@ -41,7 +42,7 @@ class Stage1SceneController extends BaseGame
       _createKentiku();
     }
 
-    if (_playerAreaController.isTapAttackButton(d)) {
+    if (_playerAreaController.isTapAttackButton(d) && _isEnableAttack) {
       _attackToEnemy();
     }
   }
@@ -93,6 +94,9 @@ class Stage1SceneController extends BaseGame
     messageController.fetchGameClear.listen((event) {
       _isGameClear = event;
       // TODO(shohei): クリア画面へ
+    });
+    messageController.fetchKentiku.listen((event) {
+      _isEnableAttack = event.objectStateType == ObjectStateType.remove;
     });
   }
 }
