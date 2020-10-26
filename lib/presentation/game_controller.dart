@@ -1,8 +1,8 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:fortnight/presentation/messages/index.dart';
-import 'package:fortnight/presentation/scenes/index.dart';
 import 'package:fortnight/presentation/scenes/stage1_scene_controller.dart';
+import 'package:fortnight/presentation/scenes/start_scene_controller.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({Key key}) : super(key: key);
@@ -58,18 +58,6 @@ class GameController extends State<GamePage> with MessageControllerMixin {
             break;
         }
       });
-    });
-
-    messageController.fetchGameClear
-        .where((event) => event == true)
-        .listen((event) {
-      // TODO
-    });
-
-    messageController.fetchGameOver
-        .where((event) => event == true)
-        .listen((event) {
-      // TODO
     });
   }
 }

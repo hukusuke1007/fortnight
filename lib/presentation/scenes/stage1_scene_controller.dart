@@ -96,10 +96,17 @@ class Stage1SceneController extends BaseGame
         await _bgm.pause();
         await _bgm.seek(Duration.zero);
       }
+      // TODO(shohei): ゲームオーバー表示
+      Future.delayed(const Duration(milliseconds: 3000), () {
+        messageController.onScene.add(SceneState(type: SceneType.start));
+      });
     });
     messageController.fetchGameClear.listen((event) {
       _isGameClear = event;
-      // TODO(shohei): クリア画面へ
+      // TODO(shohei): クリア表示
+      // Future.delayed(const Duration(milliseconds: 3000), () {
+      //   messageController.onScene.add(SceneState(type: SceneType.ending));
+      // });
     });
     messageController.fetchKentiku.listen((event) {
       _isEnableAttack = event.objectStateType == ObjectStateType.remove;
