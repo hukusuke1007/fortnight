@@ -18,12 +18,11 @@ dependencies:
   shared_preferences:
 
   # RemiSpecial
-  flutter_hooks:
-  hooks_riverpod:
   freezed_annotation:
 
   # Other
   simple_logger:
+  package_info:
 
 dev_dependencies:
   flutter_test:

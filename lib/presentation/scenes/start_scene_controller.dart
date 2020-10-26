@@ -6,6 +6,8 @@ import 'package:flame/game.dart';
 import 'package:flame/gestures.dart';
 import 'package:flutter/gestures.dart';
 import 'package:fortnight/gen/index.dart';
+import 'package:fortnight/models/app_info/app_info_controller.dart';
+import 'package:fortnight/models/player_data/player_data_controller.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 import 'package:fortnight/presentation/mixins/tap_mixin.dart';
 import 'package:fortnight/presentation/parts/buttons/index.dart';
@@ -24,6 +26,9 @@ class StartSceneController extends BaseGame
   TitleLabel _titleLabel;
   StartButton _startButton;
   InAppPurchaseButton _inAppPurchaseButton;
+
+  final AppInfoController _appInfoController = AppInfoController();
+  final PlayerDataController _playerDataController = PlayerDataController();
 
   // ignore: avoid_setters_without_getters
   set _screenSize(Size value) {
@@ -85,6 +90,12 @@ class StartSceneController extends BaseGame
   }
 
   Future<void> _configure() async {
+    final version = _appInfoController.load().version;
+    print('version $version');
+
+    final playerData = await _playerDataController.load();
+    print(
+        'gameClearTime: ${playerData.gameClearTime}, superMode: ${playerData.superMode}');
     _fetch();
   }
 

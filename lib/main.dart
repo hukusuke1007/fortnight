@@ -1,5 +1,6 @@
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:fortnight/container.dart';
 import 'package:fortnight/gen/assets.gen.dart';
 import 'package:fortnight/presentation/game_controller.dart';
 
@@ -8,6 +9,9 @@ import 'gen/extension.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Flame.util.setLandscapeLeftOnly();
+
+  /// DI
+  await initContainer();
 
   /// 画像の取り入れ
   await Flame.images.loadAll(<String>[
