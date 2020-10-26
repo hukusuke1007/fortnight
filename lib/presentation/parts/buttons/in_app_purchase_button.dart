@@ -7,9 +7,9 @@ import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
 import 'package:flutter/material.dart';
 
-class KentikuButton extends PositionComponent
+class InAppPurchaseButton extends PositionComponent
     with HasGameRef, Tapable, ComposedComponent, Resizable {
-  KentikuButton({
+  InAppPurchaseButton({
     @required double x,
     @required double y,
     @required double width,
@@ -20,15 +20,15 @@ class KentikuButton extends PositionComponent
     this.width = width;
     this.height = height;
     _rect = Rect.fromLTWH(x, y, width, height);
-    _paint = Paint()..color = Colors.orange;
+    _paint = Paint()..color = Colors.orangeAccent;
     _painter = TextPainter(
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
     )
       ..text = const TextSpan(
-        text: '建築',
+        text: '課金',
         style: TextStyle(
-          color: Color(0xffffffff),
+          color: Colors.white,
           fontSize: 36,
         ),
       )
@@ -40,9 +40,7 @@ class KentikuButton extends PositionComponent
   TextPainter _painter;
 
   @override
-  void onTapDown(TapDownDetails details) {
-    print('建築');
-  }
+  void onTapDown(TapDownDetails details) {}
 
   @override
   void update(double t) {

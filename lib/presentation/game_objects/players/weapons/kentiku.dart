@@ -81,19 +81,18 @@ class KentikuController extends PositionComponent
 class Kentiku extends PositionComponent
     with HasGameRef, Tapable, ComposedComponent, Resizable {
   Kentiku({
-    @required this.x,
-    @required this.y,
-    @required this.width,
-    @required this.height,
+    @required double x,
+    @required double y,
+    @required double width,
+    @required double height,
   }) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
     rect = Rect.fromLTWH(x, y, width, height);
     _paint = Paint()..color = Colors.orange;
   }
-
-  final double x;
-  final double y;
-  final double width;
-  final double height;
 
   Rect rect;
   Paint _paint;

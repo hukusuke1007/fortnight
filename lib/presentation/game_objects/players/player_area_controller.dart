@@ -46,11 +46,9 @@ class PlayerAreaController extends PositionComponent
     components.clear();
   }
 
-  bool isTapKentikuButton(TapDownDetails d) =>
-      _kentikuButton.toRect().contains(d.localPosition);
+  bool isTapKentikuButton(TapDownDetails d) => _kentikuButton.isTapButton(d);
 
-  bool isTapAttackButton(TapDownDetails d) =>
-      _attackButton.toRect().contains(d.localPosition);
+  bool isTapAttackButton(TapDownDetails d) => _attackButton.isTapButton(d);
 
   void _createCollisionArea() {
     collisionArea = CollisionArea(

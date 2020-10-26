@@ -10,11 +10,15 @@ import 'package:flutter/material.dart';
 class AttackButton extends PositionComponent
     with HasGameRef, Tapable, ComposedComponent, Resizable {
   AttackButton({
-    @required this.x,
-    @required this.y,
-    @required this.width,
-    @required this.height,
+    @required double x,
+    @required double y,
+    @required double width,
+    @required double height,
   }) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
     _rect = Rect.fromLTWH(x, y, width, height);
     _paint = Paint()..color = Colors.red;
     _painter = TextPainter(
@@ -30,11 +34,6 @@ class AttackButton extends PositionComponent
       )
       ..layout();
   }
-
-  final double x;
-  final double y;
-  final double width;
-  final double height;
 
   Rect _rect;
   Paint _paint;
@@ -54,7 +53,10 @@ class AttackButton extends PositionComponent
     c.drawRect(_rect, _paint);
     _painter.paint(
       c,
-      Offset(x + (width / 4), y + (height / 8)),
+      Offset(x + width / 2 - _painter.width / 2,
+          y + height / 2 - _painter.height / 2),
     );
   }
+
+  bool isTapButton(TapDownDetails d) => toRect().contains(d.localPosition);
 }

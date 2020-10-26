@@ -9,9 +9,11 @@ import 'package:flame/components/mixins/tapable.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:fortnight/gen/index.dart';
-import 'package:fortnight/presentation/game_objects/weapons/kentiku.dart';
+import 'package:fortnight/presentation/constants.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 import 'package:fortnight/presentation/parts/index.dart';
+
+import 'weapons/kentiku.dart';
 
 /// 自分のコントローラ
 class PlayerController extends PositionComponent
@@ -120,23 +122,22 @@ class PlayerController extends PositionComponent
 class Player extends PositionComponent
     with HasGameRef, Tapable, ComposedComponent, Resizable {
   Player({
-    @required this.x,
-    @required this.y,
-    @required this.width,
-    @required this.height,
+    @required double x,
+    @required double y,
+    @required double width,
+    @required double height,
   }) : _lifePointLabel = LifePointLabel(
           rect: Rect.fromLTWH(x, y, width, height),
         ) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
     _rect = Rect.fromLTWH(x, y, width, height);
     _paint = Paint()..color = Colors.blue;
-    hp = 100;
+    hp = PlayerConfig.hp;
     add(_lifePointLabel);
   }
-
-  final double x;
-  final double y;
-  final double width;
-  final double height;
   final LifePointLabel _lifePointLabel;
 
   int _hp = 1;

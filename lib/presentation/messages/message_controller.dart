@@ -12,6 +12,10 @@ class MessageController {
   MessageController._();
   static MessageController _instance;
 
+  final _scene = PublishSubject<SceneState>();
+  Stream<SceneState> get fetchScene => _scene;
+  Sink<SceneState> get onScene => _scene.sink;
+
   final _collision = PublishSubject<CollisionMessageState>();
   Stream<CollisionMessageState> get fetchCollision => _collision;
   Sink<CollisionMessageState> get onCollision => _collision.sink;
@@ -29,6 +33,7 @@ class MessageController {
   Sink<bool> get onGameClear => _gameClear.sink;
 
   Future dispose() async {
+    await _scene.close();
     await _collision.close();
     await _kentiku.close();
     await _gameOver.close();

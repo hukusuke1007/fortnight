@@ -9,19 +9,18 @@ import 'package:flutter/material.dart';
 class PaintComponent extends PositionComponent
     with HasGameRef, Tapable, ComposedComponent {
   PaintComponent({
-    @required this.x,
-    @required this.y,
-    @required this.width,
-    @required this.height,
+    @required double x,
+    @required double y,
+    @required double width,
+    @required double height,
   }) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
     _rect = Rect.fromLTWH(x, y, width, height);
     _paint = Paint()..color = Colors.green;
   }
-
-  final double x;
-  final double y;
-  final double width;
-  final double height;
 
   bool toRemove = false;
   Rect _rect;

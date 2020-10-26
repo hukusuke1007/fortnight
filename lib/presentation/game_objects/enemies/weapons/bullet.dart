@@ -6,6 +6,7 @@ import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
 import 'package:flutter/material.dart';
+import 'package:fortnight/presentation/constants.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 
 /// 銃弾のコントローラ
@@ -91,7 +92,7 @@ class BulletController extends PositionComponent
       messageController.onCollision.add(CollisionMessageState(
         from: element,
         to: player,
-        damagePoint: 1000,
+        damagePoint: EnemyConfig.attackBulletDamage,
       ));
       element.onRemove();
       print('removeBullet');
@@ -134,20 +135,20 @@ class BulletController extends PositionComponent
 class Bullet extends PositionComponent
     with HasGameRef, Tapable, ComposedComponent, Resizable {
   Bullet({
-    @required this.x,
-    @required this.y,
-    @required this.width,
-    @required this.height,
+    @required double x,
+    @required double y,
+    @required double width,
+    @required double height,
     @required this.targetLocation,
   }) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
     rect = Rect.fromLTWH(x, y, width, height);
     paint = Paint()..color = Colors.white;
   }
 
-  final double x;
-  final double y;
-  final double width;
-  final double height;
   final Offset targetLocation;
   double speed = 150;
   Rect rect;

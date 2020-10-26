@@ -7,9 +7,11 @@ import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
 import 'package:flutter/material.dart';
-import 'package:fortnight/presentation/game_objects/weapons/bullet.dart';
+import 'package:fortnight/presentation/constants.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 import 'package:fortnight/presentation/parts/index.dart';
+
+import 'weapons/bullet.dart';
 
 /// 敵のコントローラ
 class Enemy1Controller extends PositionComponent
@@ -85,26 +87,25 @@ class Enemy1Controller extends PositionComponent
 class Enemy1 extends PositionComponent
     with HasGameRef, Tapable, ComposedComponent, Resizable {
   Enemy1({
-    @required this.x,
-    @required this.y,
-    @required this.width,
-    @required this.height,
+    @required double x,
+    @required double y,
+    @required double width,
+    @required double height,
   })  : _bulletController = BulletController(
           playerRect: Rect.fromLTWH(x, y, width, height),
         ),
         _lifePointLabel = LifePointLabel(
           rect: Rect.fromLTWH(x, y, width, height),
         ) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
     _rect = Rect.fromLTWH(x, y, width, height);
     _paint = Paint()..color = Colors.green;
-    hp = 1000;
+    hp = EnemyConfig.hp;
     this..add(_bulletController)..add(_lifePointLabel);
   }
-
-  final double x;
-  final double y;
-  final double width;
-  final double height;
 
   int _hp = 1;
   int get hp => _hp;

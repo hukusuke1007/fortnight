@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 
 enum ObjectStateType { create, remove }
 
+enum SceneType { start, stage1, ending }
+
 class CollisionMessageState {
   CollisionMessageState({
     @required this.from,
@@ -21,4 +23,11 @@ class ComponentMessageState {
   });
   final PositionComponent component;
   final ObjectStateType objectStateType;
+}
+
+class SceneState {
+  SceneState({
+    @required this.type,
+  });
+  final SceneType type;
 }

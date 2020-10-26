@@ -8,9 +8,14 @@ import 'package:fortnight/gen/index.dart';
 import 'package:fortnight/presentation/game_objects/enemies/index.dart';
 import 'package:fortnight/presentation/game_objects/players/index.dart';
 import 'package:fortnight/presentation/messages/index.dart';
+import 'package:fortnight/presentation/mixins/index.dart';
 
 class Stage1SceneController extends BaseGame
-    with MultiTouchTapDetector, HasTapableComponents, MessageControllerMixin {
+    with
+        MultiTouchTapDetector,
+        HasTapableComponents,
+        MessageControllerMixin,
+        TapMixin {
   Stage1SceneController() {
     _configure();
   }
@@ -22,7 +27,6 @@ class Stage1SceneController extends BaseGame
 
   bool _isGameClear = false;
   bool _isGameStart = true;
-  bool _isTapped = false;
   bool _isEnableAttack = true;
 
   @override
@@ -32,18 +36,20 @@ class Stage1SceneController extends BaseGame
     }
 
     // TODO(shohei): 1回タップで2回発火してしまうので制御
-    if (_isTapped) {
-      _isTapped = false;
+    if (isChattering) {
       return;
     }
-    _isTapped = true;
 
     if (_playerAreaController.isTapKentikuButton(d)) {
       _createKentiku();
     }
 
-    if (_playerAreaController.isTapAttackButton(d) && _isEnableAttack) {
-      _attackToEnemy();
+    if (_playerAreaController.isTapAttackButton(d)) {
+      if (_isEnableAttack) {
+        _attackToEnemy();
+      } else {
+        Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.punchSwing1));
+      }
     }
   }
 
