@@ -6,7 +6,7 @@ import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
 import 'package:flutter/material.dart';
-import 'package:fortnight/presentation/constants.dart';
+import 'package:fortnight/presentation/config.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 
 /// 銃弾のコントローラ

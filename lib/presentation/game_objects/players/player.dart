@@ -9,7 +9,7 @@ import 'package:flame/components/mixins/tapable.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:fortnight/gen/index.dart';
-import 'package:fortnight/presentation/constants.dart';
+import 'package:fortnight/presentation/config.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 import 'package:fortnight/presentation/parts/index.dart';
 
