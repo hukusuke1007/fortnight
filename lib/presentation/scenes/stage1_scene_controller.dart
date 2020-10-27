@@ -9,6 +9,7 @@ import 'package:fortnight/presentation/game_objects/enemies/index.dart';
 import 'package:fortnight/presentation/game_objects/players/index.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 import 'package:fortnight/presentation/mixins/index.dart';
+import 'package:fortnight/presentation/parts/label/game_clear_label.dart';
 import 'package:fortnight/presentation/parts/label/game_over_label.dart';
 
 class Stage1SceneController extends BaseGame
@@ -114,8 +115,10 @@ class Stage1SceneController extends BaseGame
       _isGameClear = event;
       await _bgm.pause();
       await _bgm.seek(Duration.zero);
+      add(GameClearLabel(screenSize: size));
+      await Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.gameClear));
       // TODO(shohei): クリア表示
-      // Future.delayed(const Duration(milliseconds: 3000), () {
+      // Future.delayed(const Duration(milliseconds: 8000), () {
       //   messageController.onScene.add(SceneState(type: SceneType.ending));
       // });
     });

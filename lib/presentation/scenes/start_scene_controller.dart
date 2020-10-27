@@ -10,9 +10,11 @@ import 'package:fortnight/models/app_info/app_info_controller.dart';
 import 'package:fortnight/models/player_data/player_data_controller.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 import 'package:fortnight/presentation/mixins/tap_mixin.dart';
+import 'package:fortnight/presentation/parts/buttons/complaint_button.dart';
 import 'package:fortnight/presentation/parts/buttons/index.dart';
 import 'package:fortnight/presentation/parts/index.dart';
 import 'package:fortnight/presentation/parts/label/high_score_label.dart';
+import 'package:fortnight/presentation/parts/label/message_label.dart';
 import 'package:fortnight/presentation/parts/label/version_label.dart';
 
 class StartSceneController extends BaseGame
@@ -26,6 +28,7 @@ class StartSceneController extends BaseGame
   TitleLabel _titleLabel;
   StartButton _startButton;
   InAppPurchaseButton _inAppPurchaseButton;
+  ComplaintButton _complaintButton;
   VersionLabel _versionLabel;
   HighScoreLabel _highScoreLabel;
 
@@ -60,6 +63,12 @@ class StartSceneController extends BaseGame
     if (_inAppPurchaseButton.isTapButton(d)) {
       Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.decision9));
     }
+
+    if (_complaintButton.isTapButton(d)) {
+      _isTapped = false;
+      Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.decision9));
+      _funeral();
+    }
   }
 
   @override
@@ -73,13 +82,15 @@ class StartSceneController extends BaseGame
       _titleLabel = TitleLabel(screenSize: value);
       add(_titleLabel);
     }
-    if (_startButton == null && _inAppPurchaseButton == null) {
-      const buttonWidth = 240.0;
-      const buttonHeight = 72.0;
+    if (_startButton == null &&
+        _inAppPurchaseButton == null &&
+        _complaintButton == null) {
+      const buttonWidth = 300.0;
+      const buttonHeight = 64.0;
       final rect = Rect.fromLTWH(0, 0, value.width, value.height);
       _startButton = StartButton(
         x: rect.center.dx - buttonWidth / 2,
-        y: value.height - buttonHeight * 2 - 48,
+        y: value.height - buttonHeight * 2 - 16 * 7,
         width: buttonWidth,
         height: buttonHeight,
       );
@@ -87,11 +98,19 @@ class StartSceneController extends BaseGame
 
       _inAppPurchaseButton = InAppPurchaseButton(
         x: rect.center.dx - buttonWidth / 2,
-        y: value.height - buttonHeight - 24,
+        y: value.height - buttonHeight - 16 * 6,
         width: buttonWidth,
         height: buttonHeight,
       );
       add(_inAppPurchaseButton);
+
+      _complaintButton = ComplaintButton(
+        x: rect.center.dx - buttonWidth / 2,
+        y: value.height - buttonHeight - 16,
+        width: buttonWidth,
+        height: buttonHeight,
+      );
+      add(_complaintButton);
     }
     if (_versionLabel == null) {
       final version = _appInfoController.load().version;
@@ -107,5 +126,19 @@ class StartSceneController extends BaseGame
       _highScoreLabel = HighScoreLabel(rect: rect, value: highScore);
       add(_highScoreLabel);
     }
+  }
+
+  Future<void> _funeral() async {
+    components.removeWhere((element) => element is TitleLabel);
+    add(MessageLabel(screenSize: size, text: 'は？？うるせえ！しね！', fontSize: 50));
+    await Future<void>.delayed(const Duration(milliseconds: 2000));
+    for (var i = 0; i < 4; i++) {
+      await Flame.audio
+          .play(Assets.audio.filename(Assets.audio.sfx.collision1));
+      await Future<void>.delayed(Duration(milliseconds: i != 3 ? 500 : 100));
+    }
+    await Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.death1));
+    await Future<void>.delayed(const Duration(milliseconds: 2000));
+    messageController.onScene.add(SceneState(type: SceneType.funeral));
   }
 }

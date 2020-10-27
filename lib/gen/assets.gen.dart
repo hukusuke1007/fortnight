@@ -27,7 +27,6 @@ class $AssetsAudioBgmGen {
 
   String get bgm1 => 'assets/audio/bgm/bgm1.mp3';
   String get bgm2 => 'assets/audio/bgm/bgm2.mp3';
-  String get gameOver => 'assets/audio/bgm/game_over.mp3';
 }
 
 class $AssetsAudioSfxGen {
@@ -35,8 +34,11 @@ class $AssetsAudioSfxGen {
 
   String get bomb1 => 'assets/audio/sfx/bomb1.mp3';
   String get bomb2 => 'assets/audio/sfx/bomb2.mp3';
+  String get collision1 => 'assets/audio/sfx/collision1.mp3';
   String get death1 => 'assets/audio/sfx/death1.mp3';
   String get decision9 => 'assets/audio/sfx/decision9.mp3';
+  String get gameClear => 'assets/audio/sfx/game_clear.mp3';
+  String get gameOver => 'assets/audio/sfx/game_over.mp3';
   String get kentikuBreak => 'assets/audio/sfx/kentiku_break.mp3';
   String get kentikuCreate => 'assets/audio/sfx/kentiku_create.mp3';
   String get ko1 => 'assets/audio/sfx/ko1.mp3';

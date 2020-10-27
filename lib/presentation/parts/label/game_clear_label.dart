@@ -5,8 +5,8 @@ import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flutter/material.dart';
 
-class GameOverLabel extends PositionComponent with HasGameRef, Resizable {
-  GameOverLabel({
+class GameClearLabel extends PositionComponent with HasGameRef, Resizable {
+  GameClearLabel({
     @required this.screenSize,
     this.textSpan,
   }) {
@@ -31,9 +31,9 @@ class GameOverLabel extends PositionComponent with HasGameRef, Resizable {
     tp
       ..text = textSpan ??
           const TextSpan(
-            text: 'GAME OVER',
+            text: 'GAME CLEAR!!',
             style: TextStyle(
-              color: Colors.red,
+              color: Colors.greenAccent,
               fontSize: 104,
               fontWeight: FontWeight.bold,
             ),

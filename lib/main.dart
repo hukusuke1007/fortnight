@@ -24,7 +24,9 @@ Future<void> main() async {
   await Flame.audio.loadAll(<String>[
     Assets.audio.filename(Assets.audio.bgm.bgm1),
     Assets.audio.filename(Assets.audio.bgm.bgm2),
-    Assets.audio.filename(Assets.audio.bgm.gameOver),
+    Assets.audio.filename(Assets.audio.sfx.gameOver),
+    Assets.audio.filename(Assets.audio.sfx.gameClear),
+    Assets.audio.filename(Assets.audio.sfx.collision1),
     Assets.audio.filename(Assets.audio.sfx.bomb1),
     Assets.audio.filename(Assets.audio.sfx.bomb2),
     Assets.audio.filename(Assets.audio.sfx.decision9),
@@ -39,11 +41,10 @@ Future<void> main() async {
     Assets.audio.filename(Assets.audio.sfx.shoot2),
   ]);
 
-  runApp(MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
