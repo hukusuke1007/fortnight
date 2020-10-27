@@ -6,7 +6,9 @@ import 'package:flame/components/composed_component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:fortnight/gen/index.dart';
 import 'package:fortnight/presentation/config.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 import 'package:fortnight/presentation/parts/index.dart';
@@ -62,6 +64,7 @@ class Enemy1Controller extends PositionComponent
         enemy1.hp = max(enemy1.hp - event.damagePoint, 0);
         print('enemy_hp ${enemy1.hp}');
         if (enemy1.hp == 0) {
+          Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.bomb2));
           messageController.onGameClear.add(true);
         }
       }

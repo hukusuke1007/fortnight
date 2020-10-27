@@ -57,8 +57,11 @@ class PlayerController extends PositionComponent
   void onAttackEnemy(PositionComponent enemy) {
     _comboSound();
     if (_comboCount < 5) {
-      messageController.onCollision
-          .add(CollisionMessageState(from: this, to: enemy, damagePoint: 1));
+      final superMode = messageController.fetchSuperMode.value;
+      messageController.onCollision.add(
+        CollisionMessageState(
+            from: this, to: enemy, damagePoint: superMode ? 1000 : 1),
+      );
       _comboCount += 1;
     } else {
       _comboCount = 0;

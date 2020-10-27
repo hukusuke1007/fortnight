@@ -60,6 +60,14 @@ class Stage1SceneController extends BaseGame
     _updateCollisionBullets();
   }
 
+  @override
+  void onDetach() {
+    super.onDetach();
+    _bgm
+      ..pause()
+      ..seek(Duration.zero);
+  }
+
   Future<void> _configure() async {
     _playerController = PlayerController();
     _enemy1controller = Enemy1Controller();
@@ -102,8 +110,10 @@ class Stage1SceneController extends BaseGame
         messageController.onScene.add(SceneState(type: SceneType.start));
       });
     });
-    messageController.fetchGameClear.listen((event) {
+    messageController.fetchGameClear.listen((event) async {
       _isGameClear = event;
+      await _bgm.pause();
+      await _bgm.seek(Duration.zero);
       // TODO(shohei): クリア表示
       // Future.delayed(const Duration(milliseconds: 3000), () {
       //   messageController.onScene.add(SceneState(type: SceneType.ending));
