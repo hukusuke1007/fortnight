@@ -4,16 +4,14 @@ import 'package:flame/components/component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flutter/material.dart';
-import 'package:fortnight/presentation/messages/index.dart';
 
-class TitleLabel extends PositionComponent
-    with HasGameRef, Resizable, MessageControllerMixin {
-  TitleLabel({
+class GameOverLabel extends PositionComponent with HasGameRef, Resizable {
+  GameOverLabel({
     @required this.screenSize,
     this.textSpan,
   }) {
+    width = screenSize.width * (3 / 4);
     _screenRect = Rect.fromLTWH(0, 0, screenSize.width, screenSize.height);
-    _fetch();
   }
 
   final Size screenSize;
@@ -24,7 +22,6 @@ class TitleLabel extends PositionComponent
     textDirection: TextDirection.ltr,
   );
   Offset textOffset;
-  Color _color = Colors.white;
 
   bool toRemove = false;
   bool get isShowLabel => tp != null && textOffset != null;
@@ -34,17 +31,17 @@ class TitleLabel extends PositionComponent
     super.update(t);
     tp
       ..text = textSpan ??
-          TextSpan(
-            text: 'フォー！とNight',
+          const TextSpan(
+            text: 'GAME OVER',
             style: TextStyle(
-              color: _color,
-              fontSize: 48,
+              color: Colors.red,
+              fontSize: 104,
               fontWeight: FontWeight.bold,
             ),
           )
       ..layout();
-    textOffset =
-        Offset(_screenRect.center.dx - (tp.width / 2), _screenRect.top + 40);
+    textOffset = Offset(_screenRect.center.dx - (tp.width / 2),
+        _screenRect.top + (tp.height / 2));
   }
 
   @override
@@ -57,11 +54,5 @@ class TitleLabel extends PositionComponent
   @override
   bool destroy() {
     return toRemove;
-  }
-
-  void _fetch() {
-    messageController.fetchSuperMode.listen((event) {
-      _color = event ? Colors.yellowAccent : Colors.white;
-    });
   }
 }

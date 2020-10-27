@@ -108,6 +108,4 @@ class StartSceneController extends BaseGame
       add(_highScoreLabel);
     }
   }
-
-  void _fetch() {}
 }

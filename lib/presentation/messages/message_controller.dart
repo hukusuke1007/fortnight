@@ -32,11 +32,16 @@ class MessageController {
   Stream<bool> get fetchGameClear => _gameClear;
   Sink<bool> get onGameClear => _gameClear.sink;
 
+  final _superMode = BehaviorSubject<bool>.seeded(false);
+  ValueStream<bool> get fetchSuperMode => _superMode;
+  Sink<bool> get onSuperMode => _superMode.sink;
+
   Future dispose() async {
     await _scene.close();
     await _collision.close();
     await _kentiku.close();
     await _gameOver.close();
     await _gameClear.close();
+    await _superMode.close();
   }
 }

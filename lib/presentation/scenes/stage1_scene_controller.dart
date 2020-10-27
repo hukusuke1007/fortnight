@@ -9,6 +9,7 @@ import 'package:fortnight/presentation/game_objects/enemies/index.dart';
 import 'package:fortnight/presentation/game_objects/players/index.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 import 'package:fortnight/presentation/mixins/index.dart';
+import 'package:fortnight/presentation/parts/label/game_over_label.dart';
 
 class Stage1SceneController extends BaseGame
     with
@@ -90,13 +91,13 @@ class Stage1SceneController extends BaseGame
   }
 
   void _fetch() {
-    messageController.fetchGameOver.listen((event) async {
+    messageController.fetchGameOver
+        .where((event) => event)
+        .listen((event) async {
       _isGameStart = !event;
-      if (event) {
-        await _bgm.pause();
-        await _bgm.seek(Duration.zero);
-      }
-      // TODO(shohei): ゲームオーバー表示
+      await _bgm.pause();
+      await _bgm.seek(Duration.zero);
+      add(GameOverLabel(screenSize: size));
       Future.delayed(const Duration(milliseconds: 3000), () {
         messageController.onScene.add(SceneState(type: SceneType.start));
       });
