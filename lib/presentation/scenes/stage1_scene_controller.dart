@@ -117,10 +117,9 @@ class Stage1SceneController extends BaseGame
       await _bgm.seek(Duration.zero);
       add(GameClearLabel(screenSize: size));
       await Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.gameClear));
-      // TODO(shohei): クリア表示
-      // Future.delayed(const Duration(milliseconds: 8000), () {
-      //   messageController.onScene.add(SceneState(type: SceneType.ending));
-      // });
+      Future.delayed(const Duration(milliseconds: 8000), () {
+        messageController.onScene.add(SceneState(type: SceneType.ending));
+      });
     });
     messageController.fetchKentiku.listen((event) {
       _isEnableAttack = event.objectStateType == ObjectStateType.remove;

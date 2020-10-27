@@ -129,6 +129,7 @@ class StartSceneController extends BaseGame
   }
 
   Future<void> _funeral() async {
+    await Future<void>.delayed(const Duration(milliseconds: 1000));
     components.removeWhere((element) => element is TitleLabel);
     add(MessageLabel(screenSize: size, text: 'は？？うるせえ！しね！', fontSize: 50));
     await Future<void>.delayed(const Duration(milliseconds: 2000));

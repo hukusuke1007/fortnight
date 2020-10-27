@@ -11,6 +11,8 @@ class MessageLabel extends PositionComponent
   MessageLabel({
     @required this.screenSize,
     @required this.text,
+    this.left,
+    this.top,
     this.fontSize = 24.0,
     this.fontWeight = FontWeight.bold,
     this.color = Colors.white,
@@ -20,6 +22,8 @@ class MessageLabel extends PositionComponent
   }
 
   final Size screenSize;
+  final double left;
+  final double top;
   final String text;
   final double fontSize;
   final FontWeight fontWeight;
@@ -29,9 +33,9 @@ class MessageLabel extends PositionComponent
     textAlign: TextAlign.center,
     textDirection: TextDirection.ltr,
   );
-  Offset textOffset;
+  Offset _textOffset;
   bool toRemove = false;
-  bool get _isShowLabel => tp != null && textOffset != null;
+  bool get _isShowLabel => tp != null && _textOffset != null;
   Rect _screenRect;
 
   @override
@@ -48,14 +52,16 @@ class MessageLabel extends PositionComponent
             ),
           )
       ..layout();
-    textOffset =
-        Offset(_screenRect.center.dx - (tp.width / 2), _screenRect.top + 40);
+    _textOffset = Offset(
+      left ?? _screenRect.center.dx - (tp.width / 2),
+      top ?? _screenRect.top + 40,
+    );
   }
 
   @override
   void render(Canvas c) {
     if (_isShowLabel) {
-      tp.paint(c, textOffset);
+      tp.paint(c, _textOffset);
     }
   }
 

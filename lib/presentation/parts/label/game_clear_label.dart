@@ -34,7 +34,7 @@ class GameClearLabel extends PositionComponent with HasGameRef, Resizable {
             text: 'GAME CLEAR!!',
             style: TextStyle(
               color: Colors.greenAccent,
-              fontSize: 104,
+              fontSize: 96,
               fontWeight: FontWeight.bold,
             ),
           )

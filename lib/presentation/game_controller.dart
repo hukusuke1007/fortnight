@@ -1,6 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:fortnight/presentation/messages/index.dart';
+import 'package:fortnight/presentation/scenes/ending_scene_controller.dart';
 import 'package:fortnight/presentation/scenes/funeral_scene_controller.dart';
 import 'package:fortnight/presentation/scenes/stage1_scene_controller.dart';
 import 'package:fortnight/presentation/scenes/start_scene_controller.dart';
@@ -55,7 +56,8 @@ class GameController extends State<GamePage> with MessageControllerMixin {
             _baseGame = Stage1SceneController();
             break;
           case SceneType.ending:
-            // _baseGame = EndingSceneController();
+            _isVisibleAppBar = false;
+            _baseGame = EndingSceneController();
             break;
           case SceneType.funeral:
             _isVisibleAppBar = false;
