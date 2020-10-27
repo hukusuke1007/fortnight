@@ -23,6 +23,7 @@ dependencies:
   # Other
   simple_logger:
   package_info:
+  stop_watch_timer:
 
 dev_dependencies:
   flutter_test:
