@@ -26,6 +26,7 @@ class KentikuController extends PositionComponent
   final Rect playerRect;
 
   Size screenSize;
+  Kentiku _kentiku;
   int get _count => components.whereType<Kentiku>().length;
   int get _maxCount => 1;
 
@@ -47,15 +48,15 @@ class KentikuController extends PositionComponent
       final initialY = playerRect.top - 32;
       const width = 24.0;
       final height = playerRect.height + 64;
-      final data = Kentiku(
+      _kentiku = Kentiku(
         x: initialX,
         y: initialY,
         width: width,
         height: height,
       );
-      components.add(data);
+      components.add(_kentiku);
       messageController.onKentiku.add(ComponentMessageState(
-        data,
+        _kentiku,
         objectStateType: ObjectStateType.create,
       ));
 
@@ -71,15 +72,32 @@ class KentikuController extends PositionComponent
     messageController.fetchKentiku
         .where((event) => event.objectStateType == ObjectStateType.remove)
         .listen((event) {
-      Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.kentikuBreak));
       components.clear();
+    });
+
+    messageController.fetchCollision
+        .where((event) => event.to is Kentiku)
+        .listen((event) {
+      final superMode = messageController.fetchSuperMode.value;
+      Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.kentikuBreak));
+      if (!superMode) {
+        messageController.onKentiku.add(ComponentMessageState(
+          _kentiku,
+          objectStateType: ObjectStateType.remove,
+        ));
+      }
     });
   }
 }
 
 /// 建築
 class Kentiku extends PositionComponent
-    with HasGameRef, Tapable, ComposedComponent, Resizable {
+    with
+        HasGameRef,
+        Tapable,
+        ComposedComponent,
+        Resizable,
+        MessageControllerMixin {
   Kentiku({
     @required double x,
     @required double y,
@@ -91,7 +109,9 @@ class Kentiku extends PositionComponent
     this.width = width;
     this.height = height;
     rect = Rect.fromLTWH(x, y, width, height);
-    _paint = Paint()..color = Colors.orange;
+    final superMode = messageController.fetchSuperMode.value;
+    _paint = Paint()
+      ..color = superMode ? Colors.yellowAccent : Colors.brown[400];
   }
 
   Rect rect;

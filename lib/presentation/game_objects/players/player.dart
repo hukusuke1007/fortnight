@@ -60,7 +60,7 @@ class PlayerController extends PositionComponent
       final superMode = messageController.fetchSuperMode.value;
       messageController.onCollision.add(
         CollisionMessageState(
-            from: this, to: enemy, damagePoint: superMode ? 1000 : 1),
+            from: this, to: enemy, damagePoint: superMode ? 50 : 1),
       );
       _comboCount += 1;
     } else {

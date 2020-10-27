@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 
 enum ObjectStateType { create, remove }
 
-enum SceneType { start, stage1, funeral, ending }
+enum SceneType { start, inAppPurchase, stage1, funeral, ending }
 
 class CollisionMessageState {
   CollisionMessageState({

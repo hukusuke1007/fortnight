@@ -14,6 +14,7 @@ class InAppPurchaseButton extends PositionComponent
     @required double y,
     @required double width,
     @required double height,
+    String text = '課金',
   }) {
     this.x = x;
     this.y = y;
@@ -25,9 +26,9 @@ class InAppPurchaseButton extends PositionComponent
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
     )
-      ..text = const TextSpan(
-        text: '課金',
-        style: TextStyle(
+      ..text = TextSpan(
+        text: text,
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 36,
         ),

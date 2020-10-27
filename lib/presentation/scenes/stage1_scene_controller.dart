@@ -47,7 +47,8 @@ class Stage1SceneController extends BaseGame
     }
 
     if (_playerAreaController.isTapAttackButton(d)) {
-      if (_isEnableAttack) {
+      final superMode = messageController.fetchSuperMode.value;
+      if (_isEnableAttack || superMode) {
         _attackToEnemy();
       } else {
         Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.punchSwing1));

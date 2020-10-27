@@ -23,8 +23,8 @@ class BulletController extends PositionComponent
     _fetch();
   }
   final Rect playerRect;
-
   Size screenSize;
+
   int get _bulletCount => components.whereType<Bullet>().length;
   int get _maxBulletCount => 3;
 
@@ -73,11 +73,8 @@ class BulletController extends PositionComponent
           })
           .map((e) => e as Bullet)
           .forEach((element) {
-            messageController.onKentiku.add(ComponentMessageState(
-              _kentiku,
-              objectStateType: ObjectStateType.remove,
-            ));
-            _kentiku = null;
+            messageController.onCollision.add(CollisionMessageState(
+                from: element, to: _kentiku, damagePoint: 100));
             element.onRemove();
             print('removeKentiku');
           });
@@ -125,9 +122,13 @@ class BulletController extends PositionComponent
       components.clear();
     });
 
-    messageController.fetchKentiku
-        .where((event) => event.objectStateType == ObjectStateType.create)
-        .listen((event) => _kentiku = event.component);
+    messageController.fetchKentiku.listen((event) {
+      if (event.objectStateType == ObjectStateType.create) {
+        _kentiku = event.component;
+      } else if (event.objectStateType == ObjectStateType.remove) {
+        _kentiku = null;
+      }
+    });
   }
 }
 
@@ -146,16 +147,31 @@ class Bullet extends PositionComponent
     this.width = width;
     this.height = height;
     rect = Rect.fromLTWH(x, y, width, height);
-    paint = Paint()..color = Colors.white;
+    _paint = Paint()..color = Colors.white;
+    _painter = TextPainter(
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    )
+      ..text = const TextSpan(
+        text: '玉',
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
+      )
+      ..layout();
   }
 
   final Offset targetLocation;
   double speed = 150;
   Rect rect;
-  Paint paint;
+  Paint _paint;
+  TextPainter _painter;
   bool get isDisappear => _toRemove;
 
   bool _toRemove = false;
+  Offset _textOffset;
 
   @override
   void update(double t) {
@@ -169,13 +185,18 @@ class Bullet extends PositionComponent
       final stepToTarget =
           Offset.fromDirection(toTarget.direction, stepDistance);
       rect = rect.shift(stepToTarget);
+      _textOffset = Offset(rect.center.dx - _painter.width / 2,
+          rect.top + height / 2 - _painter.height / 2);
     }
   }
 
   @override
   void render(Canvas c) {
     super.render(c);
-    c.drawRect(rect, paint);
+    c.drawRect(rect, _paint);
+    if (_textOffset != null) {
+      _painter.paint(c, _textOffset);
+    }
   }
 
   @override

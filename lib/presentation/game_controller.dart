@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 import 'package:fortnight/presentation/scenes/ending_scene_controller.dart';
 import 'package:fortnight/presentation/scenes/funeral_scene_controller.dart';
+import 'package:fortnight/presentation/scenes/in_app_purchase_scene_controller.dart';
 import 'package:fortnight/presentation/scenes/stage1_scene_controller.dart';
 import 'package:fortnight/presentation/scenes/start_scene_controller.dart';
 
@@ -50,6 +51,10 @@ class GameController extends State<GamePage> with MessageControllerMixin {
           case SceneType.start:
             _isVisibleAppBar = false;
             _baseGame = StartSceneController();
+            break;
+          case SceneType.inAppPurchase:
+            _isVisibleAppBar = false;
+            _baseGame = InAppPurchaseSceneController();
             break;
           case SceneType.stage1:
             _isVisibleAppBar = true;

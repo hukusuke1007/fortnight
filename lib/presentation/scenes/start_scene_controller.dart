@@ -61,7 +61,12 @@ class StartSceneController extends BaseGame
       });
     }
     if (_inAppPurchaseButton.isTapButton(d)) {
+      _isTapped = false;
       Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.decision9));
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        messageController.onScene
+            .add(SceneState(type: SceneType.inAppPurchase));
+      });
     }
 
     if (_complaintButton.isTapButton(d)) {
