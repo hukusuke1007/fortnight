@@ -40,20 +40,20 @@ class LocalDatabase {
   }
 
   Future<bool> save<T>(LocalDatabaseKey key, T value) async {
-    if (T.toString() == 'int') {
-      return _prefs.setInt(key.rawValue, value as int);
+    if (value is int) {
+      return _prefs.setInt(key.rawValue, value);
     }
-    if (T.toString() == 'double') {
-      return _prefs.setDouble(key.rawValue, value as double);
+    if (value is double) {
+      return _prefs.setDouble(key.rawValue, value);
     }
-    if (T.toString() == 'bool') {
-      return _prefs.setBool(key.rawValue, value as bool);
+    if (value is bool) {
+      return _prefs.setBool(key.rawValue, value);
     }
-    if (T.toString() == 'String') {
-      return _prefs.setString(key.rawValue, value as String);
+    if (value is String) {
+      return _prefs.setString(key.rawValue, value);
     }
-    if (T.toString() == 'List<String>') {
-      return _prefs.setStringList(key.rawValue, value as List<String>);
+    if (value is List<String>) {
+      return _prefs.setStringList(key.rawValue, value);
     }
     return false;
   }
