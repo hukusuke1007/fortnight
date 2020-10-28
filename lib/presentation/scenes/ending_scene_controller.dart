@@ -21,6 +21,7 @@ class EndingSceneController extends BaseGame
 
   Sprite _sprite;
   Rect _bgRect;
+  MessageLabel _messageLabel;
 
   // ignore: avoid_setters_without_getters
   set _screenSize(Size value) {
@@ -43,12 +44,16 @@ class EndingSceneController extends BaseGame
 
   Future<void> _configure(Size value) async {
     _bgRect = const Rect.fromLTWH(32, 52, 96, 96);
-    add(MessageLabel(
+    _messageLabel = MessageLabel(
       screenSize: value,
-      text: 'こんなげーむにまじになっちゃってどうするの',
+      text: 'すごい！',
       left: 96,
       top: 150,
-    ));
+    );
+    add(_messageLabel);
+    Future.delayed(const Duration(milliseconds: 8000), () {
+      _messageLabel.text = 'こんなげーむにまじになっちゃってどうするの';
+    });
     // await Future<void>.delayed(const Duration(milliseconds: 30000));
     // messageController.onScene.add(SceneState(type: SceneType.start));
   }

@@ -24,7 +24,7 @@ class MessageLabel extends PositionComponent
   final Size screenSize;
   final double left;
   final double top;
-  final String text;
+  String text;
   final double fontSize;
   final FontWeight fontWeight;
   final Color color;
