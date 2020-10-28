@@ -13,7 +13,7 @@ import 'package:fortnight/presentation/config.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 import 'package:fortnight/presentation/parts/index.dart';
 
-import 'weapons/bullet.dart';
+import 'weapons/index.dart';
 
 /// 敵のコントローラ
 class Enemy1Controller extends PositionComponent
