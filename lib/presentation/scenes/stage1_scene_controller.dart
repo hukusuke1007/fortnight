@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/components/mixins/tapable.dart';
 import 'package:flame/flame.dart';
@@ -30,6 +32,10 @@ class Stage1SceneController extends BaseGame
   bool _isGameClear = false;
   bool _isGameStart = true;
   bool _isEnableAttack = true;
+
+  StreamSubscription<bool> _gameOverDisposer;
+  StreamSubscription<bool> _gameClearDisposer;
+  StreamSubscription<ComponentMessageState> _kentikuDisposer;
 
   @override
   void onTapDown(int pointerId, TapDownDetails d) {
@@ -67,6 +73,9 @@ class Stage1SceneController extends BaseGame
     super.onDetach();
     await _playerController?.dispose();
     await _enemyController?.dispose();
+    await _gameOverDisposer?.cancel();
+    await _gameClearDisposer?.cancel();
+    await _kentikuDisposer?.cancel();
     await _bgm.pause();
     await _bgm.seek(Duration.zero);
   }
@@ -102,7 +111,7 @@ class Stage1SceneController extends BaseGame
   }
 
   void _fetch() {
-    messageController.fetchGameOver
+    _gameOverDisposer ??= messageController.fetchGameOver
         .where((event) => event)
         .listen((event) async {
       _isGameStart = !event;
@@ -113,7 +122,9 @@ class Stage1SceneController extends BaseGame
         messageController.onScene.add(SceneState(type: SceneType.start));
       });
     });
-    messageController.fetchGameClear.listen((event) async {
+    _gameClearDisposer ??= messageController.fetchGameClear
+        .where((event) => _isGameClear != true)
+        .listen((event) async {
       _isGameClear = event;
       await _bgm.pause();
       await _bgm.seek(Duration.zero);
@@ -123,7 +134,7 @@ class Stage1SceneController extends BaseGame
         messageController.onScene.add(SceneState(type: SceneType.ending));
       });
     });
-    messageController.fetchKentiku.listen((event) {
+    _kentikuDisposer ??= messageController.fetchKentiku.listen((event) {
       _isEnableAttack = event.objectStateType == ObjectStateType.remove;
     });
   }
