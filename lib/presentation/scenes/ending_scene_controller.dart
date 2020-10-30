@@ -54,7 +54,7 @@ class EndingSceneController extends BaseGame
     Future.delayed(const Duration(milliseconds: 8000), () {
       _messageLabel.text = 'こんなげーむにまじになっちゃってどうするの';
     });
-    // await Future<void>.delayed(const Duration(milliseconds: 30000));
-    // messageController.onScene.add(SceneState(type: SceneType.start));
+    await Future<void>.delayed(const Duration(minutes: 5));
+    messageController.onScene.add(SceneState(type: SceneType.start));
   }
 }
