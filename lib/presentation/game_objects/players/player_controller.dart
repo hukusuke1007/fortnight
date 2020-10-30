@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
@@ -13,7 +14,7 @@ import 'package:fortnight/presentation/config.dart';
 import 'package:fortnight/presentation/messages/index.dart';
 
 import 'player.dart';
-import 'weapons/kentiku.dart';
+import 'weapons/index.dart';
 
 /// 自分のコントローラ
 class PlayerController extends PositionComponent
@@ -27,31 +28,29 @@ class PlayerController extends PositionComponent
     _fetch();
   }
 
-  Size screenSize;
-  Player get player =>
-      components.firstWhere((value) => value is Player, orElse: () => null)
-          as Player;
-  KentikuController kentikuController;
+  Player get player => _player;
+  Player _player;
+
+  Size _screenSize;
+  KentikuController _kentikuController;
 
   int get comboCount => _comboCount;
   int _comboCount = 0;
 
-  @override
-  void update(double t) {
-    super.update(t);
-  }
+  StreamSubscription<CollisionMessageState> _collisionDisposer;
 
   @override
   void resize(Size size) {
-    screenSize = size;
-    if (player == null) {
+    _screenSize = size;
+    if (_player == null) {
       _createPlayer();
     }
     print('resize $size');
   }
 
-  void onReset() {
-    components.clear();
+  Future<void> dispose() async {
+    await _collisionDisposer.cancel();
+    await _kentikuController.dispose();
   }
 
   void onAttackEnemy(PositionComponent enemy) {
@@ -74,20 +73,20 @@ class PlayerController extends PositionComponent
   }
 
   void onCreateKentiku() {
-    if (kentikuController == null) {
+    if (_kentikuController == null) {
       return;
     }
-    kentikuController.onCreate();
+    _kentikuController.onCreate();
   }
 
   void _fetch() {
-    messageController.fetchCollision
+    _collisionDisposer ??= messageController.fetchCollision
         .where((event) => event.to is Player)
         .listen((event) {
-      if (player != null && player.hp > 0) {
-        player.hp = max(player.hp - event.damagePoint, 0);
-        print('player_hp ${player.hp}');
-        if (player.hp <= 0) {
+      if (_player != null && _player.hp > 0) {
+        _player.hp = max(_player.hp - event.damagePoint, 0);
+        print('player_hp ${_player.hp}');
+        if (_player.hp <= 0) {
           Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.bomb2));
           Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.death1));
           messageController.onGameOver.add(true);
@@ -100,15 +99,15 @@ class PlayerController extends PositionComponent
     const playerWidth = 96.0;
     const playerHeight = 128.0;
     const playerX = 16.0;
-    final playerY = screenSize.height / 2 - playerHeight + 16;
-    final player = Player(
+    final playerY = _screenSize.height / 2 - playerHeight + 16;
+    _player = Player(
       x: playerX,
       y: playerY,
       width: playerWidth,
       height: playerHeight,
     );
-    kentikuController = KentikuController(playerRect: player.toRect());
-    components..add(player)..add(kentikuController);
+    _kentikuController = KentikuController(playerRect: _player.toRect());
+    components..add(_player)..add(_kentikuController);
   }
 
   void _comboSound() {

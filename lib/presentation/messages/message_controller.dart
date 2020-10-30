@@ -32,7 +32,7 @@ class MessageController {
   Stream<bool> get fetchGameClear => _gameClear;
   Sink<bool> get onGameClear => _gameClear.sink;
 
-  final _superMode = BehaviorSubject<bool>.seeded(false); // TODO(shohei):
+  final _superMode = BehaviorSubject<bool>.seeded(false);
   ValueStream<bool> get fetchSuperMode => _superMode;
   Sink<bool> get onSuperMode => _superMode.sink;
 

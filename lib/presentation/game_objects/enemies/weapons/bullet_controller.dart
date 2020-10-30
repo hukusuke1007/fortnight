@@ -54,7 +54,6 @@ class BulletController extends PositionComponent
   @override
   void resize(Size size) {
     screenSize = size;
-    print('resize $size');
   }
 
   void onCreateBullet({double offsetY = 0}) {
@@ -79,7 +78,7 @@ class BulletController extends PositionComponent
     } else {
       _frameCount += 1;
     }
-    print('bulletCreatedCount $_bulletCreatedCount');
+    // print('bulletCreatedCount $_bulletCreatedCount');
   }
 
   void onCollisionBullet(PositionComponent player) {
@@ -94,8 +93,13 @@ class BulletController extends PositionComponent
           })
           .map((e) => e as Bullet)
           .forEach((element) {
-            messageController.onCollision.add(CollisionMessageState(
-                from: element, to: _kentiku, damagePoint: 100));
+            messageController.onCollision.add(
+              CollisionMessageState(
+                from: element,
+                to: _kentiku,
+                damagePoint: 100,
+              ),
+            );
             if (element is SmallBullet) {
               element.onRemove();
             } else if (element is BigBullet &&
@@ -117,7 +121,6 @@ class BulletController extends PositionComponent
         damagePoint: EnemyConfig.attackBulletDamage,
       ));
       element.onRemove();
-      print('removeBullet');
     });
   }
 
@@ -126,7 +129,6 @@ class BulletController extends PositionComponent
   }
 
   void _createBullet(double offsetY, double speed) {
-    print('createBullet');
     const bulletWidth = 40.0;
     const bulletHeight = 40.0;
     final initialX = playerRect.left - (playerRect.width / 2);
@@ -144,7 +146,6 @@ class BulletController extends PositionComponent
   }
 
   void _createBigBullet(double speed) {
-    print('_createBigBullet');
     const bulletWidth = 32.0 * 5;
     const bulletHeight = 32.0 * 5;
     final initialX = playerRect.left - (playerRect.width / 2) - 30;

@@ -63,11 +63,12 @@ class Stage1SceneController extends BaseGame
   }
 
   @override
-  void onDetach() {
+  Future<void> onDetach() async {
     super.onDetach();
-    _bgm
-      ..pause()
-      ..seek(Duration.zero);
+    await _playerController?.dispose();
+    await _enemy1controller?.dispose();
+    await _bgm.pause();
+    await _bgm.seek(Duration.zero);
   }
 
   Future<void> _configure() async {
