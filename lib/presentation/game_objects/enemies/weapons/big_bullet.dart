@@ -28,7 +28,7 @@ class BigBullet extends Bullet {
         text: '大玉',
         style: TextStyle(
           color: Colors.white,
-          fontSize: 64,
+          fontSize: 52,
           fontWeight: FontWeight.bold,
         ),
       )
@@ -62,7 +62,7 @@ class BigBullet extends Bullet {
   @override
   void render(Canvas c) {
     super.render(c);
-    c.drawRect(rect, _paint);
+    c.drawOval(rect, _paint);
     if (_textOffset != null) {
       _painter.paint(c, _textOffset);
     }
