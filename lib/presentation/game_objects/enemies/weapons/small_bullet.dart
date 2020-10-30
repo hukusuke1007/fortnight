@@ -20,7 +20,7 @@ class SmallBullet extends Bullet {
     this.speed = speed;
     this.targetLocation = targetLocation;
     rect = Rect.fromLTWH(x, y, width, height);
-    _paint = Paint()..color = Colors.white;
+    _paint = Paint()..color = Colors.greenAccent;
     _painter = TextPainter(
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,

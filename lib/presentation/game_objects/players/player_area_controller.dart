@@ -9,16 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:fortnight/presentation/parts/buttons/attack_button.dart';
 import 'package:fortnight/presentation/parts/buttons/kentiku_button.dart';
 
-import 'collision_area.dart';
+import 'player_line.dart';
 
-/// PlayerAreaコントローラ
 class PlayerAreaController extends PositionComponent
     with HasGameRef, Tapable, ComposedComponent, Resizable {
-  PlayerAreaController() {}
-
-  Size screenSize;
-
-  CollisionArea collisionArea;
+  Size _screenSize;
+  PlayerLine _playerLine;
   KentikuButton _kentikuButton;
   AttackButton _attackButton;
 
@@ -29,9 +25,9 @@ class PlayerAreaController extends PositionComponent
 
   @override
   void resize(Size size) {
-    screenSize = size;
-    if (collisionArea == null) {
-      _createCollisionArea();
+    _screenSize = size;
+    if (_playerLine == null) {
+      _createPlayerLine();
     }
     if (_kentikuButton == null) {
       _createKentikuButton();
@@ -50,20 +46,20 @@ class PlayerAreaController extends PositionComponent
 
   bool isTapAttackButton(TapDownDetails d) => _attackButton.isTapButton(d);
 
-  void _createCollisionArea() {
-    collisionArea = CollisionArea(
+  void _createPlayerLine() {
+    _playerLine = PlayerLine(
       x: 0,
-      y: screenSize.height - 110,
-      width: screenSize.width,
+      y: _screenSize.height - 110,
+      width: _screenSize.width,
       height: 6,
     );
-    components.add(collisionArea);
+    components.add(_playerLine);
   }
 
   void _createKentikuButton() {
     _kentikuButton = KentikuButton(
       x: 32,
-      y: collisionArea.y + 16,
+      y: _playerLine.y + 16,
       width: 160,
       height: 72,
     );
@@ -73,8 +69,8 @@ class PlayerAreaController extends PositionComponent
   void _createAttackButton() {
     const buttonWidth = 160.0;
     _attackButton = AttackButton(
-      x: screenSize.width - buttonWidth - 32,
-      y: collisionArea.y + 16,
+      x: _screenSize.width - buttonWidth - 32,
+      y: _playerLine.y + 16,
       width: buttonWidth,
       height: 72,
     );

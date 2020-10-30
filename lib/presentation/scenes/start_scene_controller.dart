@@ -143,6 +143,7 @@ class StartSceneController extends BaseGame
           .play(Assets.audio.filename(Assets.audio.sfx.collision1));
       await Future<void>.delayed(Duration(milliseconds: i != 3 ? 500 : 100));
     }
+    await Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.bomb2));
     await Flame.audio.play(Assets.audio.filename(Assets.audio.sfx.death1));
     await Future<void>.delayed(const Duration(milliseconds: 2000));
     messageController.onScene.add(SceneState(type: SceneType.funeral));

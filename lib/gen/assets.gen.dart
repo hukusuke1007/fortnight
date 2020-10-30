@@ -17,7 +17,9 @@ class $AssetsImagesGen {
 
   AssetGenImage get gameOver =>
       const AssetGenImage('assets/images/game_over.jpg');
-  AssetGenImage get takeshi => const AssetGenImage('assets/images/takeshi.jpg');
+  AssetGenImage get hgWhite =>
+      const AssetGenImage('assets/images/hg_white.png');
+  AssetGenImage get icon => const AssetGenImage('assets/images/icon.jpg');
   AssetGenImage get takeshiBlack =>
       const AssetGenImage('assets/images/takeshi_black.jpg');
 }
