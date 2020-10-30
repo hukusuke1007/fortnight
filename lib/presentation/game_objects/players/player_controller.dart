@@ -98,7 +98,7 @@ class PlayerController extends PositionComponent
   void _createPlayer() {
     const playerWidth = 96.0;
     const playerHeight = 128.0;
-    const playerX = 16.0;
+    const playerX = 40.0;
     final playerY = _screenSize.height / 2 - playerHeight + 16;
     _player = Player(
       x: playerX,

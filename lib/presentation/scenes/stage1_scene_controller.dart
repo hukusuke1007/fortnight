@@ -23,7 +23,7 @@ class Stage1SceneController extends BaseGame
   }
 
   PlayerController _playerController;
-  Enemy1Controller _enemy1controller;
+  EnemyController _enemyController;
   PlayerAreaController _playerAreaController;
   AudioPlayer _bgm;
 
@@ -66,18 +66,18 @@ class Stage1SceneController extends BaseGame
   Future<void> onDetach() async {
     super.onDetach();
     await _playerController?.dispose();
-    await _enemy1controller?.dispose();
+    await _enemyController?.dispose();
     await _bgm.pause();
     await _bgm.seek(Duration.zero);
   }
 
   Future<void> _configure() async {
     _playerController = PlayerController();
-    _enemy1controller = Enemy1Controller();
+    _enemyController = EnemyController();
     _playerAreaController = PlayerAreaController();
     this
       ..add(_playerController)
-      ..add(_enemy1controller)
+      ..add(_enemyController)
       ..add(_playerAreaController);
     _bgm = await Flame.audio.loopLongAudio(
         Assets.audio.filename(Assets.audio.bgm.bgm2),
@@ -86,7 +86,7 @@ class Stage1SceneController extends BaseGame
   }
 
   void _attackToEnemy() {
-    _playerController.onAttackEnemy(_enemy1controller.enemy1);
+    _playerController.onAttackEnemy(_enemyController.enemy1);
   }
 
   void _createKentiku() {
@@ -98,7 +98,7 @@ class Stage1SceneController extends BaseGame
     if (player == null) {
       return;
     }
-    _enemy1controller.onUpdateCollisionBullets(player);
+    _enemyController.onUpdateCollisionBullets(player);
   }
 
   void _fetch() {

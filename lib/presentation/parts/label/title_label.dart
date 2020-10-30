@@ -51,7 +51,7 @@ class TitleLabel extends PositionComponent
           )
       ..layout();
     textOffset =
-        Offset(_screenRect.center.dx - (tp.width / 2), _screenRect.top + 64);
+        Offset(_screenRect.center.dx - (tp.width / 2), _screenRect.top + 32);
 
     const hgWidth = 64.0;
     const hgHeight = 108.0;

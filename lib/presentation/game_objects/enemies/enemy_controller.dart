@@ -15,14 +15,14 @@ import 'package:fortnight/presentation/messages/index.dart';
 import 'enemy_1.dart';
 
 /// 敵のコントローラ
-class Enemy1Controller extends PositionComponent
+class EnemyController extends PositionComponent
     with
         HasGameRef,
         Tapable,
         ComposedComponent,
         Resizable,
         MessageControllerMixin {
-  Enemy1Controller() {
+  EnemyController() {
     _fetch();
   }
 
@@ -70,7 +70,7 @@ class Enemy1Controller extends PositionComponent
   void _createEnemy() {
     const enemyWidth = 120.0;
     const enemyHeight = 120.0;
-    final enemyX = screenSize.width - enemyWidth - 16;
+    final enemyX = screenSize.width - enemyWidth - 40;
     final enemyY = screenSize.height / 2 - enemyHeight + 16;
     final enemy = Enemy1(
       x: enemyX,
