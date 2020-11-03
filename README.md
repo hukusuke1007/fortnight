@@ -1,8 +1,8 @@
 # フォー！とNight
 
-[「【登録者300人突破記念】俺の「フォートナイト」がちょっとおかしんだがwww」企画](https://www.youtube.com/watch?v=IT6PGUn4z-E)
+[「【登録者300人突破記念】俺の「フォートナイト」がちょっとおかしんだがwww」企画](https://www.youtube.com/watch?v=hVU7ARR6YxI)
 
-[<img src="./thumbnail.jpg" width="80%">](https://www.youtube.com/watch?v=IT6PGUn4z-E)<br>
+[<img src="./thumbnail.jpg" width="80%">](https://www.youtube.com/watch?v=hVU7ARR6YxI)<br>
 <br>
 
 ・YouTubeチャンネル<br>
