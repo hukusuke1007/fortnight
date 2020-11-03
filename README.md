@@ -1,6 +1,14 @@
-# fortnight
+# フォー！とNight
 
-A new Flutter application.
+[「【登録者300人突破記念】俺の「フォートナイト」がちょっとおかしんだがwww」企画](https://www.youtube.com/watch?v=IT6PGUn4z-E)
+
+[<img src="./thumbnail.jpg" width="80%">](https://www.youtube.com/watch?v=IT6PGUn4z-E)<br>
+<br>
+
+・YouTubeチャンネル<br>
+[貧乏エンジニア社長もくもくさん](https://www.youtube.com/c/mokudev)
+
+チャンネル登録よろしくお願いしますm(__)m
 
 ## 素材
 
